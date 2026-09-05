@@ -4,6 +4,20 @@ qBit Mobile is a touch-friendly web/PWA remote for qBittorrent on Windows.
 
 It serves a mobile-first qBittorrent interface and proxies `/qbit` requests to a locally running qBittorrent WebUI/API instance.
 
+Why I built qBit Mobile
+
+I originally built qBit Mobile because I was tired of sideloading a qBittorrent controller onto my iPhone, only to have to deal with signing and reinstalling it again later.
+
+I didn’t need another giant media-management project. I just wanted qBittorrent on my phone to feel like an app.
+
+So I built the interface I actually wanted to use: fast, touch-friendly, installable as a PWA, and connected directly to the qBittorrent instance already running on my PC.
+
+It started as a personal project, and once it was doing about 90% of what I wanted, I figured there wasn’t much reason to keep it to myself.
+
+qBit Mobile is MIT licensed. Use it, fork it, break it, improve it, or turn it into something completely different. If it saves somebody else from the sideloading headache that started this project, that’s a win.
+
+codex and chatgpt were the heavy lifters in coding I gave direction and testing. that's why anyone can use it because we all made it. 
+
 ## Quick start
 
 1. Enable the qBittorrent WebUI.
