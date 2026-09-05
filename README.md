@@ -16,7 +16,7 @@ It started as a personal project, and once it was doing about 90% of what I want
 
 qBit Mobile is MIT licensed. Use it, fork it, break it, improve it, or turn it into something completely different. If it saves somebody else from the sideloading headache that started this project, that’s a win.
 
-codex and chatgpt were the heavy lifters in coding I gave direction and testing. that's why anyone can use it because we all made it. 
+Codex and ChatGPT did a lot of the heavy lifting on the code. I gave the direction, tested the hell out of it, and shaped it into the app I wanted. That’s also part of why I’m making it open source — we all made it, so anyone should be able to use it. 
 
 ## Quick start
 
