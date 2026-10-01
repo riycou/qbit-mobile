@@ -1,4 +1,4 @@
-# qBit Mobile Windows Portable Install
+# qBit Mobile Windows Install
 
 qBit Mobile is a web/PWA remote for qBittorrent. It runs on the same Windows PC as qBittorrent, serves the mobile app, and proxies `/qbit` to the local qBittorrent WebUI/API.
 
@@ -10,15 +10,21 @@ It does not store your qBittorrent password. The app can remember the server add
 2. Go to Tools -> Options -> Web UI.
 3. Enable the Web User Interface.
 4. Note the WebUI port. qBit Mobile defaults to `8081`.
-5. Download and extract the qBit Mobile portable ZIP.
-6. If qBittorrent uses a different WebUI port, edit `config.json` after the first start, or copy `config.example.json` to `config.json` and change `qbitPort`.
-7. Run `start-qbit-mobile.cmd`.
+5. Download and run `qbit-mobile-windows-setup-v1.1.0.exe`.
+6. Start qBit Mobile from the Desktop or Start Menu shortcut.
+7. If qBittorrent uses a different WebUI port, edit `%LOCALAPPDATA%\qBitMobile\config.json` and change `qbitPort`.
 8. Open qBit Mobile from another device:
    - Same PC: `http://127.0.0.1:8792`
    - LAN: `http://PC-LAN-IP:8792`
    - Tailscale: `http://100.x.x.x:8792` or `http://your-pc-name:8792`
 9. In qBit Mobile, use server address `/qbit`, then enter your qBittorrent WebUI username and password.
 10. On your phone, use Add to Home Screen to install the PWA.
+
+## Portable ZIP option
+
+If you do not want the installer, download `qbit-mobile-windows-portable-v1.1.0.zip`, extract it, and run `start-qbit-mobile.cmd`.
+
+The portable ZIP also includes `install-qbit-mobile.cmd` if you later decide to install shortcuts into your Windows profile.
 
 ## Configuration
 
@@ -47,7 +53,7 @@ Do not put qBittorrent usernames or passwords in this file.
 - Windows PC running qBittorrent.
 - Node.js `22.13.0` or newer.
 
-This first portable release uses Node.js directly. A later packaging step could bundle the host into a single executable so users do not need Node installed.
+This release uses Node.js directly. A later packaging step can bundle the host runtime so users do not need Node installed.
 
 ## Optional Windows autostart
 
@@ -55,7 +61,15 @@ Run `install-autostart.cmd` to register a Task Scheduler entry that starts qBit 
 
 Run `remove-autostart.cmd` to remove it.
 
-The autostart task starts qBit Mobile only. It does not install, configure, or restart qBittorrent.
+The autostart task starts qBit Mobile hidden in the background. It does not install, configure, or restart qBittorrent.
+
+## Uninstall
+
+Use the Start Menu shortcut named `Uninstall qBit Mobile`, or run:
+
+```powershell
+powershell.exe -NoProfile -ExecutionPolicy Bypass -File "$env:LOCALAPPDATA\qBitMobile\installer\uninstall-qbit-mobile.ps1"
+```
 
 ## Windows Firewall
 

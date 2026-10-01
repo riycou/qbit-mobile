@@ -17,8 +17,14 @@ const defaults = {
 
 function loadConfig() {
   if (!fs.existsSync(configPath)) return defaults;
-  const raw = fs.readFileSync(configPath, 'utf8');
-  return { ...defaults, ...JSON.parse(raw) };
+  try {
+    const raw = fs.readFileSync(configPath, 'utf8');
+    return { ...defaults, ...JSON.parse(raw) };
+  }
+  catch (error) {
+    console.error(`Could not read config.json, using safe defaults: ${error.message}`);
+    return defaults;
+  }
 }
 
 const config = loadConfig();
@@ -107,6 +113,19 @@ function proxyQbit(req, res) {
 }
 
 const server = http.createServer((req, res) => {
+  if (req.url === '/health') {
+    send(res, 200, JSON.stringify({
+      ok: true,
+      qbitMobilePort: Number(config.qbitMobilePort),
+      listenAddress: config.listenAddress,
+      qbit: `${config.qbitHost}:${config.qbitPort}`,
+    }), {
+      'content-type': 'application/json; charset=utf-8',
+      'cache-control': 'no-store',
+    });
+    return;
+  }
+
   if (req.url?.startsWith('/qbit')) {
     res.setHeader('cache-control', 'no-store');
     proxyQbit(req, res);
@@ -114,6 +133,12 @@ const server = http.createServer((req, res) => {
   }
 
   serveStatic(req, res);
+});
+
+server.on('error', error => {
+  console.error(`qBit Mobile could not start on ${config.listenAddress}:${config.qbitMobilePort}`);
+  console.error(error.message);
+  process.exit(1);
 });
 
 server.listen(Number(config.qbitMobilePort), config.listenAddress, () => {
