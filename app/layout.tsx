@@ -1,16 +1,5 @@
 import type { Metadata } from 'next';
-import { Geist, Geist_Mono } from 'next/font/google';
 import './globals.css';
-
-const geistSans = Geist({
-  variable: '--font-geist-sans',
-  subsets: ['latin'],
-});
-
-const geistMono = Geist_Mono({
-  variable: '--font-geist-mono',
-  subsets: ['latin'],
-});
 
 export const metadata: Metadata = {
   title: 'qBit Mobile — qBittorrent web remote',
@@ -44,9 +33,7 @@ export default function RootLayout({
       <head>
         <script dangerouslySetInnerHTML={{__html: `(function(){try{var mode=localStorage.getItem('qbit_appearance')||'system';var accent=localStorage.getItem('qbit_accent')||'orange';var dark=matchMedia('(prefers-color-scheme: dark)').matches;document.documentElement.dataset.mode=mode;document.documentElement.dataset.theme=mode==='system'?(dark?'dark':'light'):mode;document.documentElement.dataset.accent=accent}catch(e){}})()`}} />
       </head>
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
+      <body className="antialiased">
         {children}
       </body>
     </html>

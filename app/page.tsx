@@ -1691,7 +1691,7 @@ function RssAddModal({
 }
 
 export default function Home() {
-  const [view, setView] = useState<View>('dashboard');
+  const [view, setView] = useState<View>('torrents');
   const [torrents, setTorrents] = useState<Torrent[]>([]);
   const [selected, setSelected] = useState<Torrent | null>(null);
   const [filter, setFilter] = useState('all');
