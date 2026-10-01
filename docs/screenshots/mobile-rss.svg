@@ -1,0 +1,109 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="390" height="844" viewBox="0 0 390 844" role="img" aria-labelledby="title desc">
+  <title id="title">qBit Mobile RSS page on a phone</title>
+  <desc id="desc">Dark mobile RSS feed page with unread tab, feed chips, and torrent download buttons.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#140b04"/>
+      <stop offset="0.48" stop-color="#050505"/>
+      <stop offset="1" stop-color="#050505"/>
+    </linearGradient>
+    <linearGradient id="orange" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#ff9d2e"/>
+      <stop offset="1" stop-color="#ff7a14"/>
+    </linearGradient>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="14" stdDeviation="18" flood-color="#000" flood-opacity="0.45"/>
+    </filter>
+    <style>
+      text{font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif}
+      .muted{fill:#a09a93}.soft{fill:#6f6861}.panel{fill:#101010}.white{fill:#f6f2ee}.orange{fill:#ff8a1f}
+      .label{font-size:10px;font-weight:800;letter-spacing:.17em}.tiny{font-size:11px}.small{font-size:13px}.body{font-size:15px}.h1{font-size:34px;font-weight:850}.bold{font-weight:800}
+    </style>
+  </defs>
+  <rect width="390" height="844" rx="36" fill="url(#bg)"/>
+  <text x="24" y="42" class="white" font-size="20" font-weight="800">9:41</text>
+  <rect x="315" y="27" width="36" height="16" rx="5" fill="#f6f2ee"/>
+  <rect x="351" y="31" width="3" height="8" rx="1.5" fill="#f6f2ee"/>
+  <rect x="319" y="31" width="25" height="8" rx="2" fill="#050505"/>
+
+  <g transform="translate(20 76)">
+    <rect width="48" height="48" rx="15" fill="url(#orange)"/>
+    <path d="M24 13v20m0 0l-8-8m8 8l8-8" fill="none" stroke="#1c0b00" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+    <text x="64" y="21" class="white" font-size="18" font-weight="850">qBit Mobile</text>
+    <text x="64" y="42" class="muted" font-size="13">Live server</text>
+    <rect x="302" y="1" width="48" height="48" rx="15" fill="#101010" stroke="#2a2a2a"/>
+    <path d="M317 18h18M317 30h18M323 12v12M331 25v12" stroke="#f6f2ee" stroke-width="2.4" stroke-linecap="round"/>
+  </g>
+
+  <line x1="0" y1="146" x2="390" y2="146" stroke="#2a2a2a"/>
+
+  <g transform="translate(20 182)">
+    <text x="0" y="0" class="white h1">RSS feeds</text>
+    <rect x="302" y="-18" width="58" height="58" rx="19" fill="url(#orange)" filter="url(#shadow)"/>
+    <path d="M331 -2v26m13-13h-26" stroke="#1c0b00" stroke-width="3" stroke-linecap="round"/>
+  </g>
+
+  <g transform="translate(20 236)">
+    <rect width="350" height="86" rx="20" fill="#17100a" stroke="#2a2a2a"/>
+    <path d="M34 45a18 18 0 0 1 18 18M34 32a31 31 0 0 1 31 31M34 60h.01" stroke="#ff8a1f" stroke-width="3" fill="none" stroke-linecap="round"/>
+    <text x="80" y="34" class="white body bold">12 feeds</text>
+    <text x="80" y="58" class="muted body">3 unread items</text>
+    <rect x="294" y="20" width="42" height="42" rx="14" fill="#101010" stroke="#2a2a2a"/>
+    <path d="M315 31v5h5M320 38a8 8 0 1 1-2-7" fill="none" stroke="#f6f2ee" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+  </g>
+
+  <g transform="translate(20 348)">
+    <rect width="110" height="46" rx="14" fill="#101010" stroke="#2a2a2a"/>
+    <circle cx="20" cy="23" r="4" fill="#ff8a1f"/>
+    <text x="34" y="28" class="muted body">All</text>
+    <text x="82" y="28" class="soft small">48</text>
+    <rect x="140" width="124" height="46" rx="14" fill="#201207" stroke="#704019"/>
+    <circle cx="160" cy="23" r="4" fill="#ff8a1f"/>
+    <text x="174" y="28" class="white body">Unread</text>
+    <text x="236" y="28" class="muted small">3</text>
+    <rect x="274" width="126" height="46" rx="14" fill="#101010" stroke="#2a2a2a"/>
+    <circle cx="294" cy="23" r="4" fill="#ff8a1f"/>
+    <text x="308" y="28" class="muted body">Linux</text>
+  </g>
+
+  <text x="20" y="430" class="white" font-size="20" font-weight="850">Unread items</text>
+
+  <g transform="translate(20 456)">
+    <rect width="350" height="138" rx="20" class="panel" stroke="#2a2a2a"/>
+    <rect x="18" y="48" width="42" height="42" rx="14" fill="#ff8a1f" opacity=".14"/>
+    <path d="M31 70a10 10 0 0 1 10 10M31 60a20 20 0 0 1 20 20M31 79h.01" stroke="#ff8a1f" stroke-width="2.4" fill="none" stroke-linecap="round"/>
+    <text x="76" y="34" class="muted small">Ubuntu Releases · 4 min ago</text>
+    <text x="76" y="60" class="white body bold">Ubuntu 24.04.5 Desktop ISO</text>
+    <text x="76" y="82" class="white body bold">official torrent</text>
+    <text x="76" y="112" class="muted small">Torrent · Unread</text>
+    <rect x="294" y="54" width="42" height="42" rx="14" fill="#201207" stroke="#704019"/>
+    <path d="M315 63v18m0 0l-7-7m7 7l7-7M306 88h18" stroke="#ff8a1f" stroke-width="2.2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+  </g>
+
+  <g transform="translate(20 610)">
+    <rect width="350" height="138" rx="20" class="panel" stroke="#2a2a2a"/>
+    <rect x="18" y="48" width="42" height="42" rx="14" fill="#ff8a1f" opacity=".14"/>
+    <path d="M31 70a10 10 0 0 1 10 10M31 60a20 20 0 0 1 20 20M31 79h.01" stroke="#ff8a1f" stroke-width="2.4" fill="none" stroke-linecap="round"/>
+    <text x="76" y="34" class="muted small">Debian News · 21 min ago</text>
+    <text x="76" y="60" class="white body bold">Debian netinst amd64 torrent</text>
+    <text x="76" y="82" class="white body bold">available for download</text>
+    <text x="76" y="112" class="muted small">740 MB · Unread</text>
+    <rect x="294" y="54" width="42" height="42" rx="14" fill="#201207" stroke="#704019"/>
+    <path d="M315 63v18m0 0l-7-7m7 7l7-7M306 88h18" stroke="#ff8a1f" stroke-width="2.2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+  </g>
+
+  <g transform="translate(0 760)">
+    <rect width="390" height="84" fill="#080808" opacity=".96"/>
+    <line x1="0" y1="0" x2="390" y2="0" stroke="#2a2a2a"/>
+    <g transform="translate(70 20)" opacity=".65">
+      <path d="M14 0v18m0 0l-7-7m7 7l7-7M4 28h20" stroke="#a09a93" stroke-width="2.2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+      <text x="-9" y="46" class="muted tiny">Torrents</text>
+    </g>
+    <rect x="166" y="14" width="58" height="58" rx="19" fill="url(#orange)" filter="url(#shadow)"/>
+    <path d="M195 30v26m13-13h-26" stroke="#1c0b00" stroke-width="3" stroke-linecap="round"/>
+    <g transform="translate(300 22)">
+      <path d="M3 12a19 19 0 0 1 19 19M3 4a27 27 0 0 1 27 27M4 28h.01" stroke="#ff8a1f" stroke-width="2.6" fill="none" stroke-linecap="round"/>
+      <text x="-3" y="44" class="orange tiny">RSS</text>
+    </g>
+  </g>
+</svg>

@@ -18,6 +18,16 @@ qBit Mobile is MIT licensed. Use it, fork it, break it, improve it, or turn it i
 
 Codex and ChatGPT did a lot of the heavy lifting on the code. I gave the direction, tested the hell out of it, and shaped it into the app I wanted. That’s also part of why I’m making it open source — we all made it, so anyone should be able to use it.
 
+## Screenshots
+
+Screenshots below use public-safe sample data.
+
+| Torrents | RSS |
+| --- | --- |
+| ![qBit Mobile torrent queue on a phone](docs/screenshots/mobile-torrents.svg) | ![qBit Mobile RSS page on a phone](docs/screenshots/mobile-rss.svg) |
+
+![qBit Mobile advanced options on desktop](docs/screenshots/desktop-advanced.svg)
+
 ## Highlights
 
 - Live torrent dashboard with real qBittorrent data.
