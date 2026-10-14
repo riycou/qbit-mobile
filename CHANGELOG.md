@@ -1,5 +1,12 @@
 # Changelog
 
+## Unreleased
+
+- Fixed .torrent file selection on mobile by validating files after selection.
+- Preserved binary uploads with the qBittorrent torrent MIME type.
+- Added upload progress, inline errors, retry handling, and duplicate-submit protection.
+- Refreshed the PWA shell cache for the upload update.
+
 ## v1.1.0
 
 - Reworked the app source into a maintainable mobile/desktop PWA structure.

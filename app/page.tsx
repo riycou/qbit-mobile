@@ -1522,6 +1522,8 @@ function SettingsModal({
 
 function AddTorrentModal({
   open,
+  adding,
+  error,
   magnet,
   file,
   savePath,
@@ -1543,6 +1545,8 @@ function AddTorrentModal({
   onSubmit,
 }: {
   open: boolean;
+  adding: boolean;
+  error: string;
   magnet: string;
   file: File | null;
   savePath: string;
@@ -1567,13 +1571,13 @@ function AddTorrentModal({
 
   return (
     <dialog className="modal-backdrop" open>
-      <div className="modal">
+      <div className="modal" aria-busy={adding}>
         <div className="modal-title">
           <div>
             <p className="eyebrow">New torrent</p>
             <h2>Add to qBittorrent</h2>
           </div>
-          <button onClick={onClose} aria-label="Close add torrent">
+          <button onClick={onClose} disabled={adding} aria-label="Close add torrent">
             <X />
           </button>
         </div>
@@ -1584,13 +1588,20 @@ function AddTorrentModal({
         </label>
 
         <label className={`dropzone ${file ? 'selected' : ''}`}>
+          {/* iOS Files can gray out .torrent files when an accept filter is set. Validate after selection instead. */}
           <input
             type="file"
-            accept=".torrent,application/x-bittorrent"
-            onChange={event => onFile(event.target.files?.[0] ?? null)}
+            name="torrents"
+            aria-label="Choose .torrent file"
+            disabled={adding}
+            onChange={event => {
+              const selectedFile = event.currentTarget.files?.[0];
+              if (selectedFile) onFile(selectedFile);
+              event.currentTarget.value = '';
+            }}
           />
           <Upload />
-          <strong>{file ? file.name : 'Choose .torrent file'}</strong>
+          <strong style={{ overflowWrap: 'anywhere' }}>{file ? file.name : 'Choose .torrent file'}</strong>
           <span>Tap here to select from this device.</span>
         </label>
 
@@ -1633,9 +1644,11 @@ function AddTorrentModal({
           </label>
         </div>
 
-        <button className="primary wide" onClick={onSubmit}>
-          <Plus />
-          Add torrent
+        {error && <p className="connection-error" role="alert">{error}</p>}
+        {adding && <p className="helper" role="status">Uploading to qBittorrent. Please wait…</p>}
+        <button className="primary wide" disabled={adding || (!magnet.trim() && !file)} onClick={onSubmit}>
+          {adding ? <Upload /> : <Plus />}
+          {adding ? 'Adding…' : 'Add torrent'}
         </button>
       </div>
     </dialog>
@@ -1713,6 +1726,8 @@ export default function Home() {
   const [addOpen, setAddOpen] = useState(false);
   const [magnet, setMagnet] = useState('');
   const [torrentFile, setTorrentFile] = useState<File | null>(null);
+  const [adding, setAdding] = useState(false);
+  const [addError, setAddError] = useState('');
   const [savePath, setSavePath] = useState('');
   const [addCategory, setAddCategory] = useState('');
   const [addTags, setAddTags] = useState('');
@@ -2135,42 +2150,56 @@ export default function Home() {
   );
 
   const addTorrent = useCallback(async () => {
-    if (!magnet.trim() && !torrentFile) return;
-    const data = new FormData();
-    if (magnet.trim()) data.append('urls', magnet.trim());
-    if (torrentFile) data.append('torrents', torrentFile, torrentFile.name);
-    if (savePath.trim()) data.append('savepath', savePath.trim());
-    if (addCategory.trim()) data.append('category', addCategory.trim());
-    if (addTags.trim()) data.append('tags', addTags.trim());
-    data.append('paused', String(addPaused));
-    data.append('sequentialDownload', String(addSequential));
-    data.append('firstLastPiecePrio', String(addFirstLast));
+    if (adding || (!magnet.trim() && !torrentFile)) return;
+    setAdding(true);
+    setAddError('');
+    try {
+      const data = new FormData();
+      if (magnet.trim()) data.append('urls', magnet.trim());
+      if (torrentFile) {
+        data.append('torrents', torrentFile.slice(0, torrentFile.size, 'application/x-bittorrent'), torrentFile.name);
+      }
+      if (savePath.trim()) data.append('savepath', savePath.trim());
+      if (addCategory.trim()) data.append('category', addCategory.trim());
+      if (addTags.trim()) data.append('tags', addTags.trim());
+      data.append('paused', String(addPaused));
+      data.append('sequentialDownload', String(addSequential));
+      data.append('firstLastPiecePrio', String(addFirstLast));
 
-    const response = await qbit('/api/v2/torrents/add', { method: 'POST', body: data });
-    if (!response.ok) {
-      setError(`Add torrent failed: ${response.status}`);
-      return;
+      const response = await qbit('/api/v2/torrents/add', { method: 'POST', body: data });
+      const result = (await response.text()).trim();
+      if (!response.ok) {
+        if (response.status === 403) throw new Error('Your qBittorrent session expired. Reconnect, then try again.');
+        if (response.status === 415) throw new Error('qBittorrent could not read this .torrent file. Download a fresh copy and try again.');
+        if (response.status === 413) throw new Error('The server rejected this upload because it is too large.');
+        throw new Error(`Add torrent failed (HTTP ${response.status}). Please try again.`);
+      }
+      if (!/^ok\.?$/i.test(result)) throw new Error('qBittorrent did not accept this torrent. Check that the file or link is valid and try again.');
+
+      setAddOpen(false);
+      setMagnet('');
+      setTorrentFile(null);
+      setAddCategory('');
+      setAddTags('');
+      setAddPaused(false);
+      setAddSequential(false);
+      setAddFirstLast(false);
+      addDiagnostic({
+        key: `torrent:add:${Date.now()}`,
+        kind: 'event',
+        area: 'Torrent',
+        message: 'Torrent add request sent.',
+        detail: magnet.trim() || torrentFile?.name || 'file',
+      });
+      setTimeout(() => {
+        void loadData().catch(() => undefined);
+      }, 1200);
+    } catch (caught) {
+      setAddError(caught instanceof Error ? caught.message : 'Could not upload the torrent. Check your connection and try again.');
+    } finally {
+      setAdding(false);
     }
-
-    setAddOpen(false);
-    setMagnet('');
-    setTorrentFile(null);
-    setAddCategory('');
-    setAddTags('');
-    setAddPaused(false);
-    setAddSequential(false);
-    setAddFirstLast(false);
-    addDiagnostic({
-      key: `torrent:add:${Date.now()}`,
-      kind: 'event',
-      area: 'Torrent',
-      message: 'Torrent add request sent.',
-      detail: magnet.trim() || torrentFile?.name || 'file',
-    });
-    setTimeout(() => {
-      void loadData();
-    }, 1200);
-  }, [addCategory, addFirstLast, addPaused, addSequential, addTags, addDiagnostic, loadData, magnet, qbit, savePath, torrentFile]);
+  }, [addCategory, addFirstLast, addPaused, addSequential, addTags, addDiagnostic, adding, loadData, magnet, qbit, savePath, torrentFile]);
 
   const refreshRss = useCallback(async () => {
     setRssLoading(true);
@@ -2492,6 +2521,8 @@ export default function Home() {
 
       <AddTorrentModal
         open={addOpen}
+        adding={adding}
+        error={addError}
         magnet={magnet}
         file={torrentFile}
         savePath={savePath}
@@ -2501,9 +2532,22 @@ export default function Home() {
         paused={addPaused}
         sequential={addSequential}
         firstLast={addFirstLast}
-        onClose={() => setAddOpen(false)}
-        onMagnet={setMagnet}
-        onFile={setTorrentFile}
+        onClose={() => { if (!adding) { setAddOpen(false); setAddError(''); } }}
+        onMagnet={value => { setMagnet(value); setAddError(''); }}
+        onFile={file => {
+          if (file && !/\.torrent$/i.test(file.name)) {
+            setTorrentFile(null);
+            setAddError('Choose a file ending in .torrent, or paste a magnet link above.');
+            return;
+          }
+          if (file && file.size === 0) {
+            setTorrentFile(null);
+            setAddError('This .torrent file is empty. Download a fresh copy and try again.');
+            return;
+          }
+          setTorrentFile(file);
+          setAddError('');
+        }}
         onSavePath={setSavePath}
         onCategory={setAddCategory}
         onTags={setAddTags}
